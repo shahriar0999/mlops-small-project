@@ -1,5 +1,6 @@
 # Import necessary libraries
 import mlflow
+import dagshub
 import tempfile
 import mlflow.sklearn
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
@@ -21,8 +22,6 @@ import os
 
 
 df = pd.read_csv('https://raw.githubusercontent.com/campusx-official/jupyter-masterclass/main/tweet_emotions.csv').drop(columns=['tweet_id'])
-
-import dagshub
 
 # set tracking uri
 mlflow.set_tracking_uri("https://dagshub.com/shahriar0999/mlops-small-project.mlflow")
