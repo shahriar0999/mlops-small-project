@@ -1,0 +1,11 @@
+data_ingestion:
+  test_size: 0.3
+
+feature_engineering:
+  max_features: 700
+
+model_building:
+  C: 1
+  solver: 'liblinear'
+  penalty: 'l2'
+  random_state: 3
