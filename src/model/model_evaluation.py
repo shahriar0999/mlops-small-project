@@ -4,8 +4,27 @@ import logging
 import pickle
 import json
 import os
+from dotenv import load_dotenv
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 import mlflow, dagshub
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Set up DagsHub credentials for MLflow tracking
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+dagshub_url = "https://dagshub.com"
+repo_owner = 'shahriar0999'
+repo_name = 'mlops-small-project'
+
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 
 # Logging configuration
 try:
@@ -104,8 +123,6 @@ def save_model_info(run_id: str, model_path: str, file_path: str) -> None:
         logger.error('Error occurred while saving the model info: %s', e)
         raise
 
-mlflow.set_tracking_uri("https://dagshub.com/shahriar0999/mlops-small-project.mlflow")
-dagshub.init(repo_owner='shahriar0999', repo_name='mlops-small-project', mlflow=True)
 
 def main():
     mlflow.set_experiment("dvc-pipeline")
@@ -113,9 +130,6 @@ def main():
         try:
             clf = load_model()
             X_test, y_test = load_test_data('./data/features/test_bow.csv')
-            
-            #  = test_data.iloc[:, :-1].values
-            #  = test_data.iloc[:, -1].values
 
             metrics = evaluate_model(clf, X_test, y_test)
             
@@ -131,13 +145,12 @@ def main():
                 for param_name, param_value in params.items():
                     mlflow.log_param(param_name, param_value)
             
-            # Log model to MLflow
-            with open("models/model.pkl", "wb") as f:
-                pickle.dump(clf, f)
-            mlflow.log_artifact("models/model.pkl")
+            mlflow.log_artifact('models/model.pkl', artifact_path="models")
+
+            # mlflow.sklearn.log_model(clf, "model")
             
             # Save model info
-            save_model_info(run.info.run_id, "model", 'reports/model_info.json')
+            save_model_info(run.info.run_id, "models", 'reports/model_info.json')
             
             # Log the metrics file to MLflow
             mlflow.log_artifact('reports/metrics.json')
