@@ -5,6 +5,7 @@ import pickle
 import json
 import os
 from dotenv import load_dotenv
+import tempfile
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 import mlflow, dagshub
 
@@ -145,9 +146,14 @@ def main():
                 for param_name, param_value in params.items():
                     mlflow.log_param(param_name, param_value)
             
-            mlflow.log_artifact('models/model.pkl', artifact_path="models")
+            # old
+            # mlflow.log_artifact('models/model.pkl', artifact_path="models")
 
-            # mlflow.sklearn.log_model(clf, "model")
+            # new
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                model_path = os.path.join(tmp_dir, "models")
+                mlflow.sklearn.save_model(clf, model_path)
+                mlflow.log_artifacts(model_path, "models")
             
             # Save model info
             save_model_info(run.info.run_id, "models", 'reports/model_info.json')

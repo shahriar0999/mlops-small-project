@@ -70,7 +70,8 @@ def register_model(model_name: str, model_info: dict):
         client.transition_model_version_stage(
             name=model_name,
             version=model_version.version,
-            stage="Staging"
+            stage="Production",
+            archive_existing_versions=True
         )
         
         logger.debug(f'Model {model_name} version {model_version.version} registered and transitioned to Staging.')
@@ -83,7 +84,7 @@ def main():
         model_info_path = 'reports/model_info.json'
         model_info = load_model_info(model_info_path)
         
-        model_name = "my_model"
+        model_name = "own_model"
         register_model(model_name, model_info)
     except Exception as e:
         logger.error('Failed to complete the model registration process: %s', e)
