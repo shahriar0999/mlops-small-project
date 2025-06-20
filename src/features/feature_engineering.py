@@ -4,6 +4,8 @@ import os
 import yaml
 import logging
 from sklearn.feature_extraction.text import CountVectorizer
+import pickle
+
 # Set up logging configuration
 logger = logging.getLogger('feature_engineering')
 logger.setLevel(logging.DEBUG)
@@ -61,6 +63,9 @@ def apply_bow_vectorization(X_train, X_test):
         # Transform test data
         X_test_bow = vectorizer.transform(X_test)
         logger.debug("Test data vectorized")
+
+        # save vectorizer for future use 
+        pickle.dump(vectorizer, open("models/vectorizer.pkl", "wb"))
         
         return X_train_bow, X_test_bow
     except Exception as e:
