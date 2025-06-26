@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 
-<html> 
+<html>
     <head>
         <title>Sentiment Analysis</title>
     </head>
 
-    <body>
+    <body style="background-color: brown">
         <h1>Sentiment Analysis</h1>
         <form action="/predict" method="POST">
-            <label> Write text:</label><br>
-            <textarea name="text" rows='9' cols="5"></textarea><br>
+            <label>Write text:</label><br>
+            <textarea name="text" rows="10" cols="40"></textarea><br>
             <input type="submit" value="Predict">
         </form>
 
         {% if result is not none %}
-            {% if result == 1%}
-                <h2> Happy </h2>
+            {% if result == 1 %}
+                <h2>Happy</h2>
             {% else %}
-                <h2> Sad </h2>
+                <h2>Sad</h2>
             {% endif %}
         {% endif %}
     </body>
