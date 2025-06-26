@@ -30,7 +30,7 @@ app = Flask(__name__)
 
 # load model from model registry
 model_name = "own_model"
-model_version = 4
+model_version = 5
 
 model_uri = f"models:/{model_name}/{model_version}"
 model = mlflow.pyfunc.load_model(model_uri)
