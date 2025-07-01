@@ -71,7 +71,7 @@ def register_model(model_name: str, model_info: dict):
             name=model_name,
             version=model_version.version,
             stage="Staging",
-            archive_existing_versions=True
+            archive_existing_versions=False
         )
         
         logger.debug(f'Model {model_name} version {model_version.version} registered and transitioned to Staging.')
