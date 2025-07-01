@@ -31,6 +31,7 @@ jobs:
           dvc repro
 
       - name: Run test
-        env: DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
+        env: 
+          DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT }}
         run: |
           python -m pytest tests/test_model.py -v
