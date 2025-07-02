@@ -1,5 +1,24 @@
 import pytest 
-from apps import app as flask_app
+import sys
+import os
+
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+
+# setup dagshub credentials for mlflow tracking
+dagshub_token = os.getenv("DAGSHUB_PAT")
+if not dagshub_token:
+    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
+    
+
+# Add project root to sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from apps.app import app as flask_app
+
 
 @pytest.fixture(scope="module")
 def client():
@@ -20,4 +39,4 @@ def test_predict_page(client):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    pytest.main()
