@@ -44,7 +44,25 @@ jobs:
           python scripts/promote_model.py
 
       - name: Run Flask app test
+        if: success()
         env:
           DAGSHUB_PAT: ${{ secrets.DAGSHUB_PAT}}
         run: |
           python -m pytest tests/test_flask_app.py -v 
+      
+      - name: Login to DockerHub
+        if: success()
+        uses: actions/docker/login@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build the docker image
+        if: success()
+        run: |
+          docker build -t crownai/mlops-small-project:latest .
+
+      - name: Push the docker image
+        if: success()
+        run: |
+          docker push crownai/mlops-small-project:latest
