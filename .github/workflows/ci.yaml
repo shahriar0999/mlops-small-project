@@ -74,7 +74,7 @@ jobs:
           host: ${{ secrets.EC2_PUBLIC_IP }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          scripts: |
+          script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mlops-small-project:latest
             docker stop sentiment-analysis-app || true
             docker rm sentiment-analysis-app || true
