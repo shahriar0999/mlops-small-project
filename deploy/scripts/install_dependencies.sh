@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Ensure that the script runs in non-interactive mode
+# Ensure that the script runs in non-interactive mode 
 export DEBIAN_FRONTEND=noninteractive
 
 # Update the package lists
@@ -9,7 +9,7 @@ sudo apt-get update -y
 # Install Docker
 sudo apt-get install -y docker.io
 
-# Start and enable Docker service
+# Start and enable Docker Service
 sudo systemctl start docker
 sudo systemctl enable docker
 

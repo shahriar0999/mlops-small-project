@@ -11,7 +11,7 @@ if [ "$(docker ps -q -f name=sentiment-analysis-app)" ]; then
     docker stop sentiment-analysis-app
 fi
 
-# Check if the container 'sentiment-analysis-app' exists (stopped or running)
+# Check if the container 'sentiment-analysis-app' exists  (stopped or running)
 if [ "$(docker ps -aq -f name=sentiment-analysis-app)" ]; then
     # Remove the container if it exists
     docker rm sentiment-analysis-app
