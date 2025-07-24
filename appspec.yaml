@@ -1,0 +1,16 @@
+version: 0.1
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/app
+
+hooks:
+  BeforeInstall:
+    - location: deploy/scripts/install_dependencies.sh 
+      timeout: 300
+      runas: ubuntu
+  
+  AfterInstall:
+    - location: deploy/scripts/start_sentiment_app.sh
+      timeout: 300
+      runas: ubuntu
