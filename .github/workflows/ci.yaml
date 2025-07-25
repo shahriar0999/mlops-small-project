@@ -99,7 +99,7 @@ jobs:
           aws deploy create-deployment \
             --application-name sentiment-app35 \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name sentiment-app-35-dpgrp \
+            --deployment-group-name sentiment-app35-dpgrp \
             --s3-location bucket=sentiment-app-code-deploy,key=deployment.zip,bundleType=zip \
             --file-exists-behavior OVERWRITE \
             --region us-east-1
